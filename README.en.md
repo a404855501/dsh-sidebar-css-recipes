@@ -65,7 +65,10 @@ node apply-css-presets.mjs --check  # check whether applied
 node apply-css-presets.mjs --revert # restore the original file
 ```
 
-Afterwards, **Settings → Side card → Custom CSS** shows four preset buttons.
+Afterwards, **Settings → Side card → Custom CSS** shows four preset buttons:
+
+![Settings](docs/settings.png)
+
 Click to merge, click again to remove:
 
 - Each block carries `/* >>> dsh-sidebar-preset:<id> */ … /* <<< */` markers, so clicking
