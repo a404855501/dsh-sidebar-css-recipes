@@ -63,7 +63,10 @@ node apply-css-presets.mjs --check  # 查看是否已打
 node apply-css-presets.mjs --revert # 还原成原版
 ```
 
-打完之后，**设置 → 侧边卡片 → 自定义 CSS** 上方会出现四配方按钮，
+打完之后，**设置 → 侧边卡片 → 自定义 CSS** 上方会出现四个配方按钮：
+
+![设置界面](docs/settings.png)
+
 点一下并入、再点一下撤销：
 
 - 每块配方带 `/* >>> dsh-sidebar-preset:<id> */ … /* <<< */` 边界标记，
