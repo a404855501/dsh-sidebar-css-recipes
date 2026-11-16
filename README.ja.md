@@ -66,7 +66,10 @@ node apply-css-presets.mjs --check  # 適用済みか確認
 node apply-css-presets.mjs --revert # 元のファイルに戻す
 ```
 
-実行後、**設定 → サイドカード → カスタム CSS** の上に 4 つのプリセットボタンが現れます。
+実行後、**設定 → サイドカード → カスタム CSS** の上に 4 つのプリセットボタンが現れます：
+
+![設定画面](docs/settings.png)
+
 クリックで取り込み、もう一度クリックで解除：
 
 - 各ブロックは `/* >>> dsh-sidebar-preset:<id> */ … /* <<< */` のマーカーを持つため、
