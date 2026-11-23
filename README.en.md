@@ -91,6 +91,51 @@ See [`css-recipes.md`](css-recipes.md) for the full CSS.
 | Collapse the cost block | Keeps only the balance line until hover | **141px** |
 | Denser workspace rows | Rows 34→26px, text 14→12px | 4-5 more rows |
 
+## Bonus: pinned-only filtering (needs JS, not CSS)
+
+The four recipes are about **height**. This one is about **finding things** — once you have
+enough sessions, the few you pinned get buried in the tree.
+
+DSH already has "pin", but pinning only sorts a session to the top of its group. **The filter
+menu has no pinned-only option.** This adds one — a "Pinned only" row in the view-options menu:
+
+![Pinned only](docs/pin-filter-menu.png)
+
+Click it and the tree keeps only pinned sessions (and expands every group, so nothing hides
+collapsed); click again to clear:
+
+![Pinned-only result](docs/pin-filter-result.png)
+
+> Real 288×900 sidebar screenshots. Workspace names and session titles are placeholders.
+
+Works in all three grouping modes (by workspace / workspace tree / flat list); search is
+filtered the same way. The choice persists in `dsh.workspace.view.v5`.
+
+**Why CSS can't do this**: the pin star is a node in the DOM. CSS could hide the star, but it
+can't hide the *sibling* rows in the same group — there's no parent selector that filters on
+"does this subtree contain a star". DSH's slot list has no slot for this menu item either, so a
+plugin can't attach to it. Patching the shipped package is the only path.
+
+**Do you need it**: no — it's optional, skip it. It edits
+`@deepseek-ai/dsh-client-ui-workspace/lib/client.js`, with a backup and a rollback.
+
+```bash
+python3 tools/pin-filter-patch.py --check   # can it patch / is it already patched
+python3 tools/pin-filter-patch.py           # apply (backs up client.js.orig first)
+python3 tools/pin-filter-patch.py --revert  # restore from the backup
+```
+
+What the script does: locate the file → verify each snippet appears **exactly once** → only
+then write. If any snippet isn't unique it changes nothing and names the offending one (so it
+never patches the wrong copy). Reload the window (⌘R) afterwards.
+
+**After a DSH upgrade**: the package file gets overwritten. Re-run `--check`; if it says
+patchable, apply again. If it reports a missing/duplicated snippet, the upstream code moved and
+the anchors need relocating — the script tells you which one.
+
+**Limits**: zh / en dictionaries only (all DSH ships); the empty state becomes "No pinned
+sessions yet" with a "view others" button.
+
 ## How it works
 
 ### Stable anchors, not hashed class names
@@ -140,6 +185,7 @@ and the anchors need relocating.
 - DSH `>=0.2.0-rc.1`
 - Option 1: no dependencies
 - Option 2: Node `>=18`
+- The optional pinned-only patch: Python `>=3.9` (no third-party packages)
 
 ## License
 
